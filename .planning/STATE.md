@@ -3,13 +3,13 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: unknown
-stopped_at: Completed 22-02-PLAN.md
-last_updated: "2026-05-22T09:26:33.622Z"
+stopped_at: Completed 22-03-PLAN.md
+last_updated: "2026-05-22T09:27:33.395Z"
 progress:
   total_phases: 22
   completed_phases: 12
   total_plans: 53
-  completed_plans: 45
+  completed_plans: 46
 ---
 
 # Project State
@@ -24,7 +24,7 @@ See: .planning/PROJECT.md (updated 2026-02-23)
 ## Current Position
 
 Phase: 22 (collection-seo-content-sanity-migration) — EXECUTING
-Plan: 3 of 8
+Plan: 4 of 8
 
 ## Performance Metrics
 
@@ -53,6 +53,7 @@ Plan: 3 of 8
 | Phase 21-search-popup-cmdk-ux-overhaul P01 | 8min | 7 tasks | 11 files |
 | Phase 22-collection-seo-content-sanity-migration P01 | 3min | 2 tasks | 9 files |
 | Phase 22-collection-seo-content-sanity-migration P02 | 3 | 2 tasks | 5 files |
+| Phase 22-collection-seo-content-sanity-migration P03 | 3min | 1 tasks | 2 files |
 
 ## Accumulated Context
 
@@ -86,9 +87,10 @@ Plan: 3 of 8
 - [Phase 22-collection-seo-content-sanity-migration]: vitest.config.ts test.include glob spans both tests/unit/** and src/**/*.test.{ts,tsx} so legacy suite and Wave 0 stubs coexist
 - [Phase 22-collection-seo-content-sanity-migration]: Playwright spec discoverability requires per-spec project entry; added 'collection-seo' project for tests/e2e/collection-seo.spec.ts
 - [Phase 22-collection-seo-content-sanity-migration]: collectionSeo doc type lifted verbatim from RESEARCH Pattern 1: composite key (surface + optional gender + collectionHandle), weak reference to post, no language field (locale handled at GROQ via translation.metadata), no seo field (post owns SEO)
+- [Phase 22-collection-seo-content-sanity-migration]: COLLECTION_SEO_QUERY single composite query (not split brand/gender) with short-circuit on $surface=='brand'; caller must pass gender='' never undefined
 
 ## Session Continuity
 
-Last session: 2026-05-22T09:26:33.620Z
-Stopped at: Completed 22-02-PLAN.md
+Last session: 2026-05-22T09:27:33.393Z
+Stopped at: Completed 22-03-PLAN.md
 Resume file: None
