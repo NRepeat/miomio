@@ -256,13 +256,15 @@ export const QuickBuyModal = ({
                   (isZeroQty && !variantAtFitting && !hasCommitted);
                 const showMuted = (isUnavailable || isZeroQty) && !hasCommitted;
                 // Quick-buy must never accept an order for stock the user
-                // can't actually receive right now. Reserve-only stock
-                // (hasCommitted) and zero-qty-with-no-fitting are not
-                // purchasable through quick-buy.
+                // can't actually receive right now. ANY of these blocks the
+                // size: storefront flag is false, qty is exactly zero
+                // (regardless of fitting-room status), or every unit is
+                // already in a committed reserve.
+                // qty === -1 means quantityAvailable was not provided
+                // (untracked variant) — allow optimistically, server
+                // validates via checkInventoryLevel.
                 const isNotBuyable =
-                  isUnavailable ||
-                  hasCommitted ||
-                  (isZeroQty && !variantAtFitting);
+                  !availableForSale || qty === 0 || hasCommitted;
                 const btn = (
                   <Button
                     variant={
@@ -278,7 +280,7 @@ export const QuickBuyModal = ({
                       },
                     )}
                     onClick={() => handleSizeSelect(s)}
-                    disabled={isUnavailable || isNotBuyable}
+                    disabled={isNotBuyable}
                   >
                     {s}
                     {showCrossed && <CrossedLine />}
