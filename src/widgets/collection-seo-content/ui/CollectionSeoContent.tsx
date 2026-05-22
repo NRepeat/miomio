@@ -1,66 +1,55 @@
 import { PortableText } from 'next-sanity';
 import { sanityFetch } from '@shared/sanity/lib/sanityFetch';
-import { POST_BY_LANGUAGE_QUERY } from '@shared/sanity/lib/query';
+import { COLLECTION_SEO_QUERY } from '@shared/sanity/lib/query';
 import { normalizeLocaleForSanity } from '@shared/lib/locale';
 import { components } from '@shared/sanity/components/portableText';
 import { SeoCurtain } from './SeoCurtain';
 
-/**
- * Maps Shopify collection handle (per gender) to the imported SEO blog post
- * slug for each Sanity locale. Filled in `scripts/import-seo-blog.mjs`.
- */
-const COLLECTION_TO_POST_SLUG: Record<
-  string,
-  { ua: string; ru: string }
-> = {
-  'woman:zhinoche-vzuttya': {
-    ua: 'zhinoche-vzuttia',
-    ru: 'zhenskaya-obuv',
-  },
-  'woman:krosivky-ta-kedy': {
-    ua: 'zhinochi-krosivky-ta-kedy',
-    ru: 'zhenskie-krossovki-i-kedy',
-  },
-  'woman:oksfordy-ta-lofery': {
-    ua: 'zhinochi-oksfordy-ta-lofery',
-    ru: 'zhenskie-oksfordy-i-lofery',
-  },
-  'woman:sabo-ta-myuli': {
-    ua: 'zhinochi-sabo-ta-miuli',
-    ru: 'zhenskie-sabo-i-myuli',
-  },
-  'man:choloviche-vzuttya': {
-    ua: 'choloviche-vzuttia',
-    ru: 'muzhskaya-obuv',
-  },
-  'man:krosivky-ta-kedy': {
-    ua: 'cholovichi-krosivky-ta-kedy',
-    ru: 'muzhskie-krossovki-i-kedy',
-  },
-};
-
 type Props = {
-  gender: string;
+  surface: 'brand' | 'gender';
+  gender?: string;
   handle: string;
   locale: string;
 };
 
-export async function CollectionSeoContent({ gender, handle, locale }: Props) {
-  const key = `${gender}:${handle}`;
-  const entry = COLLECTION_TO_POST_SLUG[key];
-  if (!entry) return null;
+type TranslationEntry = {
+  _id?: string;
+  title?: string;
+  body?: unknown;
+  language?: string;
+};
+type PostShape = {
+  _id?: string;
+  title?: string;
+  body?: unknown;
+  language?: string;
+  translations?: TranslationEntry[] | null;
+};
 
-  const sanityLocale = (await normalizeLocaleForSanity(locale)) as 'ua' | 'ru';
-  const slug = entry[sanityLocale] ?? entry.ua;
-
-  const post = await sanityFetch({
-    query: POST_BY_LANGUAGE_QUERY,
-    params: { slug, language: sanityLocale },
+export async function CollectionSeoContent({
+  surface,
+  gender,
+  handle,
+  locale,
+}: Props) {
+  const result = (await sanityFetch({
+    query: COLLECTION_SEO_QUERY,
+    params: { surface, gender: gender ?? '', handle },
     revalidate: 3600,
-    tags: [`post:${slug}`, 'post'],
-  });
+    tags: [`collectionSeo:${surface}:${handle}`, 'collectionSeo'],
+  })) as { post: PostShape | null } | null;
 
-  if (!post?.body) return null;
+  if (!result?.post) return null;
+
+  const sanityLocaleRaw = normalizeLocaleForSanity(locale);
+  const sanityLocale = (await Promise.resolve(sanityLocaleRaw)) as 'ua' | 'ru';
+
+  const canonical = result.post;
+  const sibling = canonical.translations?.find(
+    (t: TranslationEntry) => t?.language === sanityLocale,
+  );
+  const chosen: PostShape = sibling && sibling.body ? sibling : canonical;
+  if (!chosen?.body) return null;
 
   const isUk = locale === 'uk';
   const showLabel = isUk ? 'Показати більше' : 'Показать больше';
@@ -71,14 +60,21 @@ export async function CollectionSeoContent({ gender, handle, locale }: Props) {
       aria-label="SEO description"
       className="mx-auto mt-12 max-w-4xl border-t border-foreground/10 pt-10 md:mt-16 md:pt-12"
     >
-      <SeoCurtain showLabel={showLabel} hideLabel={hideLabel} collapsedHeight={280}>
-        {post.title ? (
+      <SeoCurtain
+        showLabel={showLabel}
+        hideLabel={hideLabel}
+        collapsedHeight={280}
+      >
+        {chosen.title ? (
           <h2 className="mb-6 text-balance text-2xl md:text-3xl font-semibold tracking-[-0.02em] leading-[1.15] text-foreground">
-            {post.title}
+            {chosen.title}
           </h2>
         ) : null}
         <div className="prose-none">
-          <PortableText value={post.body} components={components} />
+          <PortableText
+            value={chosen.body as never}
+            components={components as never}
+          />
         </div>
       </SeoCurtain>
     </section>
