@@ -144,16 +144,24 @@ const MANIFEST = [
     title: 'Bogner (brand)',
   },
   {
+    // Source filename spells "Scoretti" but the Shopify brand handle is
+    // `helena-soretti` (single 'c'), verified against live storefront 200/404
+    // probe + collections_export.csv. Brand name on store: "Helena Soretti".
     filePath: '/Users/mnmac/Downloads/Взуття Helena Scoretti.md',
     surface: 'brand',
-    collectionHandle: 'helena-scoretti',
-    title: 'Helena Scoretti (brand)',
+    collectionHandle: 'helena-soretti',
+    title: 'Helena Soretti (brand)',
   },
   {
+    // RESEARCH Open Q1: transliterated guess `zhinochi-baletky-ta-mokasyny`
+    // is NOT the live Shopify handle. Verified canonical handle is
+    // `baletky-ta-mokasyny` (no `zhinochi-` prefix — gender is owned by the
+    // URL segment, not the handle). Pattern matches `krosivky-ta-kedy`,
+    // `oksfordy-ta-lofery` etc. which are also shared across genders.
     filePath: '/Users/mnmac/Downloads/Жіночі балетки і мокасини.md',
     surface: 'gender',
     gender: 'woman',
-    collectionHandle: 'zhinochi-baletky-ta-mokasyny',
+    collectionHandle: 'baletky-ta-mokasyny',
     title: 'Жіночі балетки і мокасини (woman)',
   },
 ];
