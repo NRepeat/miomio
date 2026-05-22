@@ -4,6 +4,7 @@ import { COLLECTION_SEO_QUERY } from '@shared/sanity/lib/query';
 import { normalizeLocaleForSanity } from '@shared/lib/locale';
 import { components } from '@shared/sanity/components/portableText';
 import { SeoCurtain } from './SeoCurtain';
+import { extractFaqEntries, buildFaqJsonLd } from '../lib/extract-faq';
 
 type Props = {
   surface: 'brand' | 'gender';
@@ -55,11 +56,23 @@ export async function CollectionSeoContent({
   const showLabel = isUk ? 'Показати більше' : 'Показать больше';
   const hideLabel = isUk ? 'Згорнути' : 'Свернуть';
 
+  const faqEntries = extractFaqEntries(
+    chosen.body as Parameters<typeof extractFaqEntries>[0],
+  );
+  const faqJsonLd = buildFaqJsonLd(faqEntries);
+
   return (
     <section
       aria-label="SEO description"
       className="mx-auto mt-12 max-w-4xl border-t border-foreground/10 pt-10 md:mt-16 md:pt-12"
     >
+      {faqJsonLd ? (
+        <script
+          type="application/ld+json"
+          // FAQPage schema for Google rich-result eligibility.
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+        />
+      ) : null}
       <SeoCurtain
         showLabel={showLabel}
         hideLabel={hideLabel}

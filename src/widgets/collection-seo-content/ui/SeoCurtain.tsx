@@ -37,7 +37,7 @@ export function SeoCurtain({
         )}
       </div>
 
-      <div className="mt-4 flex justify-center">
+      <div className="mt-4 mb-10 md:mb-14 flex justify-center">
         <button
           type="button"
           onClick={() => setOpen((v) => !v)}
