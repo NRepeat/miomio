@@ -9,6 +9,7 @@ import {
 import { generateBrandMetadata } from '@shared/lib/seo/generateMetadata';
 import { notFound } from 'next/navigation';
 import { locales } from '@shared/i18n/routing';
+import { CollectionSeoContent } from '@widgets/collection-seo-content';
 
 export type SearchParams = { [key: string]: string | string[] | undefined };
 
@@ -76,6 +77,11 @@ export default async function BrandPage({ params, searchParams }: Props) {
       <Suspense fallback={<CollectionGridSkeleton />}>
         <BrandGrid params={params} searchParams={searchParams} />
       </Suspense>
+      <CollectionSeoContent
+        surface="brand"
+        handle={decodedSlug}
+        locale={locale}
+      />
     </div>
   );
 }
