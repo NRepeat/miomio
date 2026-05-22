@@ -3,13 +3,13 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: unknown
-stopped_at: Completed 22-03-PLAN.md
-last_updated: "2026-05-22T09:27:33.395Z"
+stopped_at: Completed 22-05-PLAN.md
+last_updated: "2026-05-22T09:28:21.462Z"
 progress:
   total_phases: 22
   completed_phases: 12
   total_plans: 53
-  completed_plans: 46
+  completed_plans: 47
 ---
 
 # Project State
@@ -54,6 +54,7 @@ Plan: 4 of 8
 | Phase 22-collection-seo-content-sanity-migration P01 | 3min | 2 tasks | 9 files |
 | Phase 22-collection-seo-content-sanity-migration P02 | 3 | 2 tasks | 5 files |
 | Phase 22-collection-seo-content-sanity-migration P03 | 3min | 1 tasks | 2 files |
+| Phase 22-collection-seo-content-sanity-migration P05 | 1min | 1 tasks | 1 files |
 
 ## Accumulated Context
 
@@ -88,9 +89,10 @@ Plan: 4 of 8
 - [Phase 22-collection-seo-content-sanity-migration]: Playwright spec discoverability requires per-spec project entry; added 'collection-seo' project for tests/e2e/collection-seo.spec.ts
 - [Phase 22-collection-seo-content-sanity-migration]: collectionSeo doc type lifted verbatim from RESEARCH Pattern 1: composite key (surface + optional gender + collectionHandle), weak reference to post, no language field (locale handled at GROQ via translation.metadata), no seo field (post owns SEO)
 - [Phase 22-collection-seo-content-sanity-migration]: COLLECTION_SEO_QUERY single composite query (not split brand/gender) with short-circuit on $surface=='brand'; caller must pass gender='' never undefined
+- [Phase 22-collection-seo-content-sanity-migration]: Brand page renders CollectionSeoContent after BrandGrid Suspense, inside container, with surface="brand" — matches D-04/D-05/D-06
 
 ## Session Continuity
 
-Last session: 2026-05-22T09:27:33.393Z
-Stopped at: Completed 22-03-PLAN.md
+Last session: 2026-05-22T09:28:21.457Z
+Stopped at: Completed 22-05-PLAN.md
 Resume file: None
