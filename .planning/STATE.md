@@ -3,13 +3,13 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: unknown
-stopped_at: Completed 22-05-PLAN.md
-last_updated: "2026-05-22T09:28:21.462Z"
+stopped_at: Completed 22-06-PLAN.md
+last_updated: "2026-05-22T09:32:24.676Z"
 progress:
   total_phases: 22
   completed_phases: 12
   total_plans: 53
-  completed_plans: 47
+  completed_plans: 49
 ---
 
 # Project State
@@ -24,7 +24,7 @@ See: .planning/PROJECT.md (updated 2026-02-23)
 ## Current Position
 
 Phase: 22 (collection-seo-content-sanity-migration) — EXECUTING
-Plan: 4 of 8
+Plan: 5 of 8
 
 ## Performance Metrics
 
@@ -55,6 +55,8 @@ Plan: 4 of 8
 | Phase 22-collection-seo-content-sanity-migration P02 | 3 | 2 tasks | 5 files |
 | Phase 22-collection-seo-content-sanity-migration P03 | 3min | 1 tasks | 2 files |
 | Phase 22-collection-seo-content-sanity-migration P05 | 1min | 1 tasks | 1 files |
+| Phase 22-collection-seo-content-sanity-migration P04 | 7min | 3 tasks | 3 files |
+| Phase 22-collection-seo-content-sanity-migration P06 | 4 min | 3 tasks | 4 files |
 
 ## Accumulated Context
 
@@ -90,9 +92,13 @@ Plan: 4 of 8
 - [Phase 22-collection-seo-content-sanity-migration]: collectionSeo doc type lifted verbatim from RESEARCH Pattern 1: composite key (surface + optional gender + collectionHandle), weak reference to post, no language field (locale handled at GROQ via translation.metadata), no seo field (post owns SEO)
 - [Phase 22-collection-seo-content-sanity-migration]: COLLECTION_SEO_QUERY single composite query (not split brand/gender) with short-circuit on $surface=='brand'; caller must pass gender='' never undefined
 - [Phase 22-collection-seo-content-sanity-migration]: Brand page renders CollectionSeoContent after BrandGrid Suspense, inside container, with surface="brand" — matches D-04/D-05/D-06
+- [Phase 22-collection-seo-content-sanity-migration]: CollectionSeoContent widget now consumes COLLECTION_SEO_QUERY (Sanity GROQ) — hardcoded COLLECTION_TO_POST_SLUG map deleted; widget prop shape generalized to { surface, gender?, handle, locale }
+- [Phase 22-collection-seo-content-sanity-migration]: import-seo-md.mjs copies helpers verbatim from import-seo-blog.mjs rather than extracting a shared module — CONTEXT D-07 mandates the two importers coexist
+- [Phase 22-collection-seo-content-sanity-migration]: ESM CLI guard (import.meta.url === file://argv[1]) lets the importer expose MANIFEST/LEGACY_MIGRATION/buildCollectionSeo to vitest without triggering main()
+- [Phase 22-collection-seo-content-sanity-migration]: --clean-old targets both imported-seo-md-* and imported-collection-seo-* docs so one flag resets the importer's full footprint
 
 ## Session Continuity
 
-Last session: 2026-05-22T09:28:21.457Z
-Stopped at: Completed 22-05-PLAN.md
+Last session: 2026-05-22T09:32:16.692Z
+Stopped at: Completed 22-06-PLAN.md
 Resume file: None

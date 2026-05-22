@@ -338,14 +338,14 @@ Plans:
 **Goal:** Replace the hardcoded COLLECTION_TO_POST_SLUG map with a Sanity-driven collectionSeo document type; extend the existing collection-SEO widget to brand pages; import 7 new UA/RU SEO articles from .md sources and migrate the 6 existing hardcoded mappings to the new schema.
 **Requirements**: TEST-INFRA, SCHEMA, GROQ, WIDGET, BRAND-INTEGRATION, IMPORTER, HANDLE-VERIFY, DATA, E2E (synthetic per VALIDATION.md)
 **Depends on:** Phase 21
-**Plans:** 4/8 plans executed
+**Plans:** 6/8 plans executed
 
 Plans:
 - [x] 22-01-PLAN.md — Wave 0 test infrastructure scaffolding (vitest.config.ts + 5 test stubs + 2 .md fixtures)
 - [x] 22-02-PLAN.md — Sanity collectionSeo schema (collectionSeoType.ts + register + typegen)
 - [x] 22-03-PLAN.md — COLLECTION_SEO_QUERY GROQ with translation.metadata join
-- [ ] 22-04-PLAN.md — Widget refactor: swap COLLECTION_TO_POST_SLUG for COLLECTION_SEO_QUERY + update gender-collection page
+- [x] 22-04-PLAN.md — Widget refactor: swap COLLECTION_TO_POST_SLUG for COLLECTION_SEO_QUERY + update gender-collection page
 - [x] 22-05-PLAN.md — Brand page integration (add CollectionSeoContent after BrandGrid)
-- [ ] 22-06-PLAN.md — scripts/import-seo-md.mjs with MANIFEST + LEGACY_MIGRATION + collectionSeo upsert
+- [x] 22-06-PLAN.md — scripts/import-seo-md.mjs with MANIFEST + LEGACY_MIGRATION + collectionSeo upsert
 - [ ] 22-07-PLAN.md — Live data import (manual handle verification gate + run importer + --migrate-legacy)
 - [ ] 22-08-PLAN.md — E2E playwright smoke across 13 routes × 2 locales
