@@ -2,16 +2,14 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: completed
-stopped_at: Completed 21-01-PLAN.md
-last_updated: "2026-05-02T12:20:25.565Z"
-last_activity: 2026-05-02
+status: unknown
+stopped_at: Completed 22-01-PLAN.md
+last_updated: "2026-05-22T09:22:30.377Z"
 progress:
-  total_phases: 21
+  total_phases: 22
   completed_phases: 12
-  total_plans: 45
-  completed_plans: 43
-  percent: 100
+  total_plans: 53
+  completed_plans: 44
 ---
 
 # Project State
@@ -21,16 +19,12 @@ progress:
 See: .planning/PROJECT.md (updated 2026-02-23)
 
 **Core value:** The checkout-to-order flow works reliably and securely for every user — anonymous or authenticated — without data leaks, silent failures, or broken UI.
-**Current focus:** Phase 17 — Gender Navigation Architecture
+**Current focus:** Phase 22 — collection-seo-content-sanity-migration
 
 ## Current Position
 
-Phase: 17 (Gender Navigation Architecture)
-Plan: 1 of 1 in current phase completed
-Status: Complete
-Last activity: 2026-05-02
-
-Progress: [██████████] 100% (of current SEO wave)
+Phase: 22 (collection-seo-content-sanity-migration) — EXECUTING
+Plan: 2 of 8
 
 ## Performance Metrics
 
@@ -57,6 +51,7 @@ Progress: [██████████] 100% (of current SEO wave)
 | Phase 19-search-refactor-fsd-structure-quick-fixes P01 | 3min | 3 tasks | 13 files |
 | Phase 20 P01 | 12min | 2 tasks | 9 files |
 | Phase 21-search-popup-cmdk-ux-overhaul P01 | 8min | 7 tasks | 11 files |
+| Phase 22-collection-seo-content-sanity-migration P01 | 3min | 2 tasks | 9 files |
 
 ## Accumulated Context
 
@@ -70,6 +65,7 @@ Progress: [██████████] 100% (of current SEO wave)
 - Phase 17 added: Gender Navigation Architecture — derive gender from URL instead of cookie to fix back navigation state bug
 - Phase 18 added: SEO audit fixes (canonical, redirects, 404s, image optimization, meta-tags)
 - Phase 19 added: Search refactor — FSD structure + quick fixes (popup discount/layout, mobile header, single GraphQL source)
+- Phase 22 added: Collection SEO content Sanity migration — replace hardcoded COLLECTION_TO_POST_SLUG with Sanity-driven mapping, extend widget to brand pages, import 7 new UA/RU articles from .md sources
 
 ### Decisions
 
@@ -86,9 +82,11 @@ Progress: [██████████] 100% (of current SEO wave)
 - [Phase 20]: SearchSortKeys lacks CREATED; created-desc silently degrades to RELEVANCE rather than forking SortSelect
 - [Phase 21-search-popup-cmdk-ux-overhaul]: Extended shadcn CommandDialog to forward shouldFilter/filter/loop, avoiding Dialog+Command fallback (R-05)
 - [Phase 21-search-popup-cmdk-ux-overhaul]: Recent searches stored under nnshop:search:recent (max 5, FIFO, case-insensitive dedupe), populated via useEffect for SSR safety
+- [Phase 22-collection-seo-content-sanity-migration]: vitest.config.ts test.include glob spans both tests/unit/** and src/**/*.test.{ts,tsx} so legacy suite and Wave 0 stubs coexist
+- [Phase 22-collection-seo-content-sanity-migration]: Playwright spec discoverability requires per-spec project entry; added 'collection-seo' project for tests/e2e/collection-seo.spec.ts
 
 ## Session Continuity
 
-Last session: 2026-05-02T12:20:17.512Z
-Stopped at: Completed 21-01-PLAN.md
+Last session: 2026-05-22T09:22:24.171Z
+Stopped at: Completed 22-01-PLAN.md
 Resume file: None
