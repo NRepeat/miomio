@@ -55,3 +55,7 @@ next-env.d.ts
 .gemini
 deploy.sh
 .env.server
+
+# Test artifacts
+playwright-report/
+test-results/

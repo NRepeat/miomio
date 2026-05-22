@@ -44,13 +44,13 @@ REMOTE_BUILD="/tmp/nnshop-deploy"
 log "Syncing build output to server (rsync delta)..."
 ssh ${REMOTE} "mkdir -p ${REMOTE_BUILD}/{.next/standalone,.next/static,public,keys}"
 
-rsync -az --delete --progress \
+rsync -az -e "ssh -o ServerAliveInterval=30 -o ServerAliveCountMax=20 -o TCPKeepAlive=yes" --delete \
   .next/standalone/ ${REMOTE}:${REMOTE_BUILD}/.next/standalone/
-rsync -az --delete \
+rsync -az -e "ssh -o ServerAliveInterval=30 -o ServerAliveCountMax=20 -o TCPKeepAlive=yes" --delete \
   .next/static/ ${REMOTE}:${REMOTE_BUILD}/.next/static/
-rsync -az --delete \
+rsync -az -e "ssh -o ServerAliveInterval=30 -o ServerAliveCountMax=20 -o TCPKeepAlive=yes" --delete \
   public/ ${REMOTE}:${REMOTE_BUILD}/public/
-rsync -az --delete \
+rsync -az -e "ssh -o ServerAliveInterval=30 -o ServerAliveCountMax=20 -o TCPKeepAlive=yes" --delete \
   keys/ ${REMOTE}:${REMOTE_BUILD}/keys/
 scp -q Dockerfile.deploy ${REMOTE}:${REMOTE_BUILD}/Dockerfile.deploy
 log "  Sync done"
