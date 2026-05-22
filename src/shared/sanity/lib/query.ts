@@ -1380,11 +1380,45 @@ export const PROMOTION_BANNER_QUERY = defineQuery(
 );
 
 export const COLLECTION_IS_BRAND_QUERY = defineQuery(
-  `*[_type == "collection" && (store.slug.current == $handle || handles.uk == $handle || handles.ru == $handle)][0]{ 
-    isBrand, 
+  `*[_type == "collection" && (store.slug.current == $handle || handles.uk == $handle || handles.ru == $handle)][0]{
+    isBrand,
     customTitle,
     handles,
     titles,
     "handle": store.slug.current
   }`
 );
+
+// Look up a collectionSeo mapping by composite key (surface, gender?, collectionHandle)
+// and resolve the referenced post plus all its translations (UA/RU siblings via
+// translation.metadata) in a single round trip. The widget picks the locale-matching
+// translation at render time. For `surface == "brand"` the gender check short-circuits;
+// callers MUST still pass `gender: ""` (never undefined) because defineQuery validates
+// param presence.
+export const COLLECTION_SEO_QUERY = defineQuery(`
+  *[_type == "collectionSeo"
+    && surface == $surface
+    && collectionHandle == $handle
+    && ($surface == "brand" || gender == $gender)
+  ][0]{
+    _id,
+    surface,
+    gender,
+    collectionHandle,
+    "post": post->{
+      _id,
+      title,
+      body,
+      language,
+      "slug": slug.current,
+      "translations": *[_type == "translation.metadata" && references(^._id)][0]
+        .translations[].value->{
+          _id,
+          title,
+          body,
+          language,
+          "slug": slug.current
+        }
+    }
+  }
+`);
