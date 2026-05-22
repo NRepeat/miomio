@@ -48,6 +48,7 @@ import { navDropdownImages } from './blocks/navDropdownImages';
 import { footerSettings } from './shopify/shemas/objects/global/footer';
 import { promotionBannerType } from './blocks/promotionBannerType';
 import { collectionBannerGrid } from './blocks/collectionBannerGrid';
+import { collectionSeoType } from './collectionSeoType';
 
 // const blocks = [heroSlider, heroSlide, mainCollectionGrid];
 
@@ -105,5 +106,6 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     popularPosts,
     promotionBannerType,
     collectionBannerGrid,
+    collectionSeoType,
   ],
 };

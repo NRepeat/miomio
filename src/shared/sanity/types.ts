@@ -13,6 +13,24 @@
  */
 
 // Source: schema.json
+export type CollectionSeo = {
+  _id: string;
+  _type: 'collectionSeo';
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title?: string;
+  surface?: 'brand' | 'gender';
+  gender?: 'woman' | 'man' | 'kids';
+  collectionHandle?: string;
+  post?: {
+    _ref: string;
+    _type: 'reference';
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: 'post';
+  };
+};
+
 export type CollectionBannerGrid = {
   _type: 'collectionBannerGrid';
   banners?: Array<{
@@ -1819,6 +1837,7 @@ export type Geopoint = {
 };
 
 export type AllSanitySchemaTypes =
+  | CollectionSeo
   | CollectionBannerGrid
   | PromotionBanner
   | LocalizedString
@@ -5069,7 +5088,7 @@ export type PROMOTION_BANNER_QUERYResult = {
   } | null;
 } | null;
 // Variable: COLLECTION_IS_BRAND_QUERY
-// Query: *[_type == "collection" && (store.slug.current == $handle || handles.uk == $handle || handles.ru == $handle)][0]{     isBrand,     customTitle,    handles,    titles,    "handle": store.slug.current  }
+// Query: *[_type == "collection" && (store.slug.current == $handle || handles.uk == $handle || handles.ru == $handle)][0]{    isBrand,    customTitle,    handles,    titles,    "handle": store.slug.current  }
 export type COLLECTION_IS_BRAND_QUERYResult = {
   isBrand: boolean | null;
   customTitle: LocalizedString | null;
@@ -5082,6 +5101,38 @@ export type COLLECTION_IS_BRAND_QUERYResult = {
     ru?: string;
   } | null;
   handle: string | null;
+} | null;
+// Variable: COLLECTION_SEO_QUERY
+// Query: *[_type == "collectionSeo"    && surface == $surface    && collectionHandle == $handle    && ($surface == "brand" || gender == $gender)  ][0]{    _id,    surface,    gender,    collectionHandle,    "post": post->{      _id,      title,      body,      language,      "slug": slug.current,      "translations": *[_type == "translation.metadata" && references(^._id)][0]        .translations[].value->{          _id,          title,          body,          language,          "slug": slug.current        }    }  }
+export type COLLECTION_SEO_QUERYResult = {
+  _id: string;
+  surface: 'brand' | 'gender' | null;
+  gender: 'kids' | 'man' | 'woman' | null;
+  collectionHandle: string | null;
+  post: {
+    _id: string;
+    title: string | null;
+    body: BlockContent | null;
+    language: string | null;
+    slug: string | null;
+    translations: Array<
+      | {
+          _id: string;
+          title: string | null;
+          body: null;
+          language: string | null;
+          slug: null;
+        }
+      | {
+          _id: string;
+          title: string | null;
+          body: BlockContent | null;
+          language: string | null;
+          slug: string | null;
+        }
+      | null
+    > | null;
+  } | null;
 } | null;
 
 // Query TypeMap
@@ -5112,6 +5163,7 @@ declare module '@sanity/client' {
     '\n  *[_type == \'siteSettings\'][0]{\n    infoBar {\n      ...,\n      telephone,\n      viberPhone,\n      "text": coalesce(text[$locale], text.uk, text.ru, ""),\n      link {\n        ...,\n        "collectionData": reference-> {\n          title,\n          "handle": store.slug.current,\n          "pageHandle": slug,\n          "id": store.id,\n          handles,\n          titles\n        }\n      }\n    },\n    header {\n      ...,\n      categoryLinks[]{\n        _key,\n        "title": coalesce(title[$locale], title.uk, title.ru, ""),\n        "collectionData": reference-> {\n          title,\n          "slug": store.slug.current,\n          "pageHandle": slug,\n          "id": store.id,\n          handles,\n          titles\n        }\n      },\n      mainCategory[]{\n        _key,\n        "title": coalesce(title[$locale], title.uk, title.ru, ""),\n        "collectionData": reference-> {\n          title,\n          "slug": store.slug.current,\n          "pageHandle": slug,\n          "id": store.id,\n          handles,\n          titles\n        }\n      }\n    },\n    brandsNavigation {\n      "tabTitle": coalesce(tabTitle[$locale], tabTitle.uk, tabTitle.ru, ""),\n      topBrandsWoman,\n      topBrandsMan,\n      collections[]{\n        _key,\n        "title": coalesce(title[$locale], title.uk, title.ru, ""),\n        "collectionData": reference-> {\n          title,\n          "slug": store.slug.current,\n          "pageHandle": slug,\n          "id": store.id,\n          handles,\n          titles\n        }\n      }\n    },\n    navDropdowns {\n      woman[]{\n        _key,\n        isBrandsTab,\n        topBrands[]->{\n          _id,\n          "title": coalesce(titles[$locale], titles.uk, store.title, ""),\n          "handle": coalesce(handles[$locale], handles.uk, store.slug.current),\n        },\n        "tabTitle": coalesce(tabTitle[$locale], tabTitle.uk, tabTitle.ru, tabCollection->titles[$locale], tabCollection->titles.uk, tabCollection->store.title, ""),\n        "tabUrl": coalesce(tabUrl, tabCollection->handles[$locale], tabCollection->handles.uk, tabCollection->store.slug.current),\n        tabImage {\n          url,\n          imageTitle,\n          imageButtonLabel,\n          imageButtonUrl,\n          brandSlug,\n          "imageUrl": image.asset->url,\n          "imageWidth": image.asset->metadata.dimensions.width,\n          "imageHeight": image.asset->metadata.dimensions.height,\n          "alt": coalesce(image.alt[$locale], image.alt.uk, image.alt.ru),\n          "collectionHandle": collection->store.slug.current,\n          "collectionTitle": collection->store.title,\n          "imageButtonCollectionHandle": imageButtonCollection->store.slug.current,\n        },\n        columns[]{\n          _key,\n          "title": coalesce(title[$locale], title.uk, title.ru, collection->titles[$locale], collection->titles.uk, collection->store.title, ""),\n          "url": coalesce(collection->handles[$locale], collection->handles.uk, collection->store.slug.current),\n          items[]->{\n            _id,\n            "title": coalesce(navTitle[$locale], navTitle.uk, navTitle.ru, titles[$locale], titles.uk, store.title, ""),\n            "handle": coalesce(handles[$locale], handles.uk, handles.ru, store.slug.current),\n            "navTitleColor": navTitleColor\n          },\n          "outletLink": outletLink {\n            "label": coalesce(label[$locale], label.uk, label.ru, ""),\n            "collectionHandle": coalesce(collection->handles[$locale], collection->handles.uk, collection->store.slug.current),\n            url\n          },\n          "actionButton": actionButton {\n            "label": coalesce(label[$locale], label.uk, label.ru, ""),\n            "collectionHandle": coalesce(collection->handles[$locale], collection->handles.uk, collection->store.slug.current),\n            url\n          }\n        }\n      },\n      man[]{\n        _key,\n        isBrandsTab,\n        topBrands[]->{\n          _id,\n          "title": coalesce(titles[$locale], titles.uk, store.title, ""),\n          "handle": coalesce(handles[$locale], handles.uk, store.slug.current),\n        },\n        "tabTitle": coalesce(tabTitle[$locale], tabTitle.uk, tabTitle.ru, tabCollection->titles[$locale], tabCollection->titles.uk, tabCollection->store.title, ""),\n        "tabUrl": coalesce(tabUrl, tabCollection->handles[$locale], tabCollection->handles.uk, tabCollection->store.slug.current),\n        tabImage {\n          url,\n          imageTitle,\n          imageButtonLabel,\n          imageButtonUrl,\n          brandSlug,\n          "imageUrl": image.asset->url,\n          "imageWidth": image.asset->metadata.dimensions.width,\n          "imageHeight": image.asset->metadata.dimensions.height,\n          "alt": coalesce(image.alt[$locale], image.alt.uk, image.alt.ru),\n          "collectionHandle": collection->store.slug.current,\n          "collectionTitle": collection->store.title,\n          "imageButtonCollectionHandle": imageButtonCollection->store.slug.current,\n        },\n        columns[]{\n          _key,\n          "title": coalesce(title[$locale], title.uk, title.ru, collection->titles[$locale], collection->titles.uk, collection->store.title, ""),\n          "url": coalesce(collection->handles[$locale], collection->handles.uk, collection->store.slug.current),\n          items[]->{\n            _id,\n            "title": coalesce(navTitle[$locale], navTitle.uk, navTitle.ru, titles[$locale], titles.uk, store.title, ""),\n            "handle": coalesce(handles[$locale], handles.uk, handles.ru, store.slug.current),\n            "navTitleColor": navTitleColor\n          },\n          "outletLink": outletLink {\n            "label": coalesce(label[$locale], label.uk, label.ru, ""),\n            "collectionHandle": coalesce(collection->handles[$locale], collection->handles.uk, collection->store.slug.current),\n            url\n          },\n          "actionButton": actionButton {\n            "label": coalesce(label[$locale], label.uk, label.ru, ""),\n            "collectionHandle": coalesce(collection->handles[$locale], collection->handles.uk, collection->store.slug.current),\n            url\n          }\n        }\n      }\n    }\n  }\n': HEADER_QUERYResult;
     "\n  *[_type == 'siteSettings'][0]{\n    footerSettings {\n      socialLinks[] {\n        platform,\n        url\n      },\n      workingHours {\n        uk,\n        ru\n      },\n      address {\n        uk,\n        ru\n      },\n      paymentMethods\n    }\n  }\n": FOOTER_QUERYResult;
     '*[_type == "promotionBanner" && (enabled == true || _id in path("drafts.**"))][0]{\n    _id,\n    enabled,\n    image,\n    "imageAlt": coalesce(image.alt[$language], image.alt.uk, image.alt.ru),\n    desktopImage,\n    "desktopImageAlt": coalesce(desktopImage.alt[$language], desktopImage.alt.uk, desktopImage.alt.ru),\n    "title": coalesce(title[$language], title.uk, title.ru),\n    "description": coalesce(description[$language], description.uk, description.ru)[],\n    discountCode,\n    actionButton {\n      "label": coalesce(label[$language], label.uk, label.ru),\n      url,\n      womanUrl,\n      manUrl,\n      "womanCollection": womanCollection->{\n        title,\n        "handle": store.slug.current,\n        handles,\n        titles\n      },\n      "manCollection": manCollection->{\n        title,\n        "handle": store.slug.current,\n        handles,\n        titles\n      }\n    },\n    behavior {\n      trigger,\n      delaySeconds,\n      scrollPercent,\n      cooldownHours,\n      showOnce,\n      resetToken\n    }\n  }': PROMOTION_BANNER_QUERYResult;
-    '*[_type == "collection" && (store.slug.current == $handle || handles.uk == $handle || handles.ru == $handle)][0]{ \n    isBrand, \n    customTitle,\n    handles,\n    titles,\n    "handle": store.slug.current\n  }': COLLECTION_IS_BRAND_QUERYResult;
+    '*[_type == "collection" && (store.slug.current == $handle || handles.uk == $handle || handles.ru == $handle)][0]{\n    isBrand,\n    customTitle,\n    handles,\n    titles,\n    "handle": store.slug.current\n  }': COLLECTION_IS_BRAND_QUERYResult;
+    '\n  *[_type == "collectionSeo"\n    && surface == $surface\n    && collectionHandle == $handle\n    && ($surface == "brand" || gender == $gender)\n  ][0]{\n    _id,\n    surface,\n    gender,\n    collectionHandle,\n    "post": post->{\n      _id,\n      title,\n      body,\n      language,\n      "slug": slug.current,\n      "translations": *[_type == "translation.metadata" && references(^._id)][0]\n        .translations[].value->{\n          _id,\n          title,\n          body,\n          language,\n          "slug": slug.current\n        }\n    }\n  }\n': COLLECTION_SEO_QUERYResult;
   }
 }
