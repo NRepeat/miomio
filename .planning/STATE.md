@@ -3,13 +3,13 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: unknown
-stopped_at: Completed 22-01-PLAN.md
-last_updated: "2026-05-22T09:22:30.377Z"
+stopped_at: Completed 22-02-PLAN.md
+last_updated: "2026-05-22T09:26:33.622Z"
 progress:
   total_phases: 22
   completed_phases: 12
   total_plans: 53
-  completed_plans: 44
+  completed_plans: 45
 ---
 
 # Project State
@@ -24,7 +24,7 @@ See: .planning/PROJECT.md (updated 2026-02-23)
 ## Current Position
 
 Phase: 22 (collection-seo-content-sanity-migration) — EXECUTING
-Plan: 2 of 8
+Plan: 3 of 8
 
 ## Performance Metrics
 
@@ -52,6 +52,7 @@ Plan: 2 of 8
 | Phase 20 P01 | 12min | 2 tasks | 9 files |
 | Phase 21-search-popup-cmdk-ux-overhaul P01 | 8min | 7 tasks | 11 files |
 | Phase 22-collection-seo-content-sanity-migration P01 | 3min | 2 tasks | 9 files |
+| Phase 22-collection-seo-content-sanity-migration P02 | 3 | 2 tasks | 5 files |
 
 ## Accumulated Context
 
@@ -84,9 +85,10 @@ Plan: 2 of 8
 - [Phase 21-search-popup-cmdk-ux-overhaul]: Recent searches stored under nnshop:search:recent (max 5, FIFO, case-insensitive dedupe), populated via useEffect for SSR safety
 - [Phase 22-collection-seo-content-sanity-migration]: vitest.config.ts test.include glob spans both tests/unit/** and src/**/*.test.{ts,tsx} so legacy suite and Wave 0 stubs coexist
 - [Phase 22-collection-seo-content-sanity-migration]: Playwright spec discoverability requires per-spec project entry; added 'collection-seo' project for tests/e2e/collection-seo.spec.ts
+- [Phase 22-collection-seo-content-sanity-migration]: collectionSeo doc type lifted verbatim from RESEARCH Pattern 1: composite key (surface + optional gender + collectionHandle), weak reference to post, no language field (locale handled at GROQ via translation.metadata), no seo field (post owns SEO)
 
 ## Session Continuity
 
-Last session: 2026-05-22T09:22:24.171Z
-Stopped at: Completed 22-01-PLAN.md
+Last session: 2026-05-22T09:26:33.620Z
+Stopped at: Completed 22-02-PLAN.md
 Resume file: None
