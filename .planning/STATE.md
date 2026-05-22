@@ -3,13 +3,13 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: unknown
-stopped_at: Completed 22-06-PLAN.md
-last_updated: "2026-05-22T09:32:24.676Z"
+stopped_at: Completed 22-07-PLAN.md
+last_updated: "2026-05-22T09:40:21.012Z"
 progress:
   total_phases: 22
   completed_phases: 12
   total_plans: 53
-  completed_plans: 49
+  completed_plans: 50
 ---
 
 # Project State
@@ -24,7 +24,7 @@ See: .planning/PROJECT.md (updated 2026-02-23)
 ## Current Position
 
 Phase: 22 (collection-seo-content-sanity-migration) — EXECUTING
-Plan: 5 of 8
+Plan: 8 of 8
 
 ## Performance Metrics
 
@@ -57,6 +57,7 @@ Plan: 5 of 8
 | Phase 22-collection-seo-content-sanity-migration P05 | 1min | 1 tasks | 1 files |
 | Phase 22-collection-seo-content-sanity-migration P04 | 7min | 3 tasks | 3 files |
 | Phase 22-collection-seo-content-sanity-migration P06 | 4 min | 3 tasks | 4 files |
+| Phase 22-collection-seo-content-sanity-migration P07 | 5min | 3 tasks | 1 files |
 
 ## Accumulated Context
 
@@ -96,9 +97,12 @@ Plan: 5 of 8
 - [Phase 22-collection-seo-content-sanity-migration]: import-seo-md.mjs copies helpers verbatim from import-seo-blog.mjs rather than extracting a shared module — CONTEXT D-07 mandates the two importers coexist
 - [Phase 22-collection-seo-content-sanity-migration]: ESM CLI guard (import.meta.url === file://argv[1]) lets the importer expose MANIFEST/LEGACY_MIGRATION/buildCollectionSeo to vitest without triggering main()
 - [Phase 22-collection-seo-content-sanity-migration]: --clean-old targets both imported-seo-md-* and imported-collection-seo-* docs so one flag resets the importer's full footprint
+- [Phase 22-collection-seo-content-sanity-migration]: MANIFEST patched at handle-verification gate: helena-scoretti→helena-soretti (Shopify brand is 'Helena Soretti', single 'c') and zhinochi-baletky-ta-mokasyny→baletky-ta-mokasyny (no zhinochi- prefix; gender owned by URL segment per krosivky-ta-kedy convention)
+- [Phase 22-collection-seo-content-sanity-migration]: Handle verification must hit live Storefront API directly (Shopify-Storefront-Private-Token header) — cached getCollectionSlugs() can stale; the raw GraphQL query is canonical truth
+- [Phase 22-collection-seo-content-sanity-migration]: Live Sanity dataset now contains 21 new SEO content docs (7 UA + 7 RU + 7 translation.metadata) + 13 collectionSeo mapping docs (7 new manifest + 6 legacy upserts) — storefront SEO copy is editor-managed end-to-end
 
 ## Session Continuity
 
-Last session: 2026-05-22T09:32:16.692Z
-Stopped at: Completed 22-06-PLAN.md
+Last session: 2026-05-22T09:40:21.009Z
+Stopped at: Completed 22-07-PLAN.md
 Resume file: None
