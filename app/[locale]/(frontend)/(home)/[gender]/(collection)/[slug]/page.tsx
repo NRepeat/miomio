@@ -195,6 +195,7 @@ export default async function CollectionPage({ params, searchParams }: Props) {
         </Suspense>
 
         <CollectionSeoContent
+          surface="gender"
           gender={gender}
           handle={resolvedHandle}
           locale={locale}
