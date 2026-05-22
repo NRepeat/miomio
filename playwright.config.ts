@@ -48,6 +48,14 @@ export default defineConfig({
         ...devices['Desktop Chrome'],
       },
     },
+    // Collection SEO presence tests — no auth required (Phase 22)
+    {
+      name: 'collection-seo',
+      testMatch: '**/collection-seo.spec.ts',
+      use: {
+        ...devices['Desktop Chrome'],
+      },
+    },
   ],
 
   // Only start web server in CI — locally assumes `npm run dev` is already running
