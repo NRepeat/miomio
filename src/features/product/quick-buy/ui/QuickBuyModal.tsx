@@ -137,9 +137,14 @@ export const QuickBuyModal = ({
       }
       variantId = variant.id;
     } else {
-      // No sizes, use first available variant
+      // No sizes — use first variant, but verify it's actually buyable.
       const variant = product.variants.edges[0]?.node;
       if (!variant) {
+        toast.error(t('productUnavailable'));
+        return;
+      }
+      const qty = variant.quantityAvailable ?? -1;
+      if (!variant.availableForSale || qty === 0) {
         toast.error(t('productUnavailable'));
         return;
       }
@@ -250,6 +255,14 @@ export const QuickBuyModal = ({
                   isUnavailable ||
                   (isZeroQty && !variantAtFitting && !hasCommitted);
                 const showMuted = (isUnavailable || isZeroQty) && !hasCommitted;
+                // Quick-buy must never accept an order for stock the user
+                // can't actually receive right now. Reserve-only stock
+                // (hasCommitted) and zero-qty-with-no-fitting are not
+                // purchasable through quick-buy.
+                const isNotBuyable =
+                  isUnavailable ||
+                  hasCommitted ||
+                  (isZeroQty && !variantAtFitting);
                 const btn = (
                   <Button
                     variant={
@@ -265,7 +278,7 @@ export const QuickBuyModal = ({
                       },
                     )}
                     onClick={() => handleSizeSelect(s)}
-                    disabled={isUnavailable}
+                    disabled={isUnavailable || isNotBuyable}
                   >
                     {s}
                     {showCrossed && <CrossedLine />}

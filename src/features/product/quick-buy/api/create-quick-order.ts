@@ -4,6 +4,7 @@ import { DEFAULT_COUNTRY_CODE, PRICE_APP_URL, SHOPIFY_STORE_DOMAIN, INTERNAL_API
 import { prisma } from '@shared/lib/prisma';
 import { adminClient } from '@shared/lib/shopify/admin-client';
 import { auth } from '@features/auth/lib/auth';
+import { checkInventoryLevel } from '@entities/product/api/check-inventory-level';
 import { headers } from 'next/headers';
 import { captureServerEvent, captureServerError } from '@shared/lib/posthog/posthog-server';
 
@@ -79,6 +80,19 @@ export async function createQuickOrder(orderData: QuickOrderInput): Promise<{
   errors?: string[];
 }> {
   try {
+    // Validate stock before creating order. Quick-buy must never sell into
+    // negative inventory. Untracked variants are treated as "infinite stock".
+    const stock = await checkInventoryLevel(orderData.variantId);
+    if (!stock) {
+      return { success: false, errors: ['Variant not found'] };
+    }
+    if (stock.tracked && stock.quantity < orderData.quantity) {
+      return {
+        success: false,
+        errors: ['Товар закінчився / Товар закончился'],
+      };
+    }
+
     // Get session (optional for quick order)
     const session = await auth.api.getSession({ headers: await headers() });
     const userId = session?.user?.id;
@@ -155,7 +169,7 @@ export async function createQuickOrder(orderData: QuickOrderInput): Promise<{
         order,
         options: {
           sendReceipt: false,
-          inventoryBehaviour: 'DECREMENT_IGNORING_POLICY',
+          inventoryBehaviour: 'DECREMENT_OBEYING_POLICY',
         },
       },
     });
