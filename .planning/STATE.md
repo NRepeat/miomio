@@ -3,13 +3,13 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: unknown
-stopped_at: Completed 22-07-PLAN.md
-last_updated: "2026-05-22T09:40:21.012Z"
+stopped_at: Completed 22-08-PLAN.md
+last_updated: "2026-05-22T09:52:24.980Z"
 progress:
   total_phases: 22
-  completed_phases: 12
+  completed_phases: 13
   total_plans: 53
-  completed_plans: 50
+  completed_plans: 51
 ---
 
 # Project State
@@ -58,6 +58,7 @@ Plan: 8 of 8
 | Phase 22-collection-seo-content-sanity-migration P04 | 7min | 3 tasks | 3 files |
 | Phase 22-collection-seo-content-sanity-migration P06 | 4 min | 3 tasks | 4 files |
 | Phase 22-collection-seo-content-sanity-migration P07 | 5min | 3 tasks | 1 files |
+| Phase 22-collection-seo-content-sanity-migration P08 | 9 min | 1 tasks | 1 files |
 
 ## Accumulated Context
 
@@ -100,9 +101,10 @@ Plan: 8 of 8
 - [Phase 22-collection-seo-content-sanity-migration]: MANIFEST patched at handle-verification gate: helena-scoretti→helena-soretti (Shopify brand is 'Helena Soretti', single 'c') and zhinochi-baletky-ta-mokasyny→baletky-ta-mokasyny (no zhinochi- prefix; gender owned by URL segment per krosivky-ta-kedy convention)
 - [Phase 22-collection-seo-content-sanity-migration]: Handle verification must hit live Storefront API directly (Shopify-Storefront-Private-Token header) — cached getCollectionSlugs() can stale; the raw GraphQL query is canonical truth
 - [Phase 22-collection-seo-content-sanity-migration]: Live Sanity dataset now contains 21 new SEO content docs (7 UA + 7 RU + 7 translation.metadata) + 13 collectionSeo mapping docs (7 new manifest + 6 legacy upserts) — storefront SEO copy is editor-managed end-to-end
+- [Phase 22-collection-seo-content-sanity-migration]: E2E spec covers 13 routes × 2 locales; curtain-button locator scoped to [aria-label=SEO description] section to avoid collision with collection load-more buttons sharing the same label
 
 ## Session Continuity
 
-Last session: 2026-05-22T09:40:21.009Z
-Stopped at: Completed 22-07-PLAN.md
+Last session: 2026-05-22T09:52:24.977Z
+Stopped at: Completed 22-08-PLAN.md
 Resume file: None
